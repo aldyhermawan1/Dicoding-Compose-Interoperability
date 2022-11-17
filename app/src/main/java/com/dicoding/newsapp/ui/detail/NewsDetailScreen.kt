@@ -1,5 +1,8 @@
 package com.dicoding.newsapp.ui.detail
 
+import android.view.ViewGroup.LayoutParams
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import com.dicoding.newsapp.R
 import com.dicoding.newsapp.data.local.entity.NewsEntity
 
@@ -76,7 +80,20 @@ fun NewsDetailContent(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-
+            AndroidView(
+                factory = {
+                    WebView(it).apply {
+                        layoutParams = LayoutParams(
+                            LayoutParams.MATCH_PARENT,
+                            LayoutParams.MATCH_PARENT
+                        )
+                        webViewClient = WebViewClient()
+                    }
+                },
+                update = {
+                    it.loadUrl(url)
+                }
+            )
         }
     }
 }
